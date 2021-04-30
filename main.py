@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import ActionChains
 import random
-
+from time import sleep
 import configparser
 config = configparser.ConfigParser()
 config.read('.env')
@@ -75,11 +75,39 @@ def Pass(driver):
     a.send_keys(Keys.ARROW_LEFT).perform()
 
 
+def scroll(driver):
+    a = ActionChains(driver)
+    for i in range(random.randrange(5)):
+        a.send_keys(Keys.ARROW_DOWN).perform()
+
+    for i in range(random.randrange(5)):
+        a.send_keys(Keys.ARROW_UP).perform()
+
+
 
 #a = ActionChains(driver)
 
 def main():
+    pass_count = 15
+    swipe_count = 100
     login(driver)
+    while swipe_count > 0:
+        scroll(driver)
+        if random.randrange(10) % 2 == 1 and pass_count > 0:
+            sleep(random.randrange(10))
+            Pass(driver)
+            swipe_count -= 1
+            pass_count -= 1
+        else:
+            sleep(random.randrange(10))
+            Like(driver)
+            swipe_count -= 1
+
+    print("job done")
+
+
+
+
 
 
 
